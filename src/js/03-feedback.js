@@ -13,7 +13,6 @@ const saveFormState = throttle(() => {
     localStorage.setItem(feedbackFormStateKey, JSON.stringify(feedbackFormState));
 }, 500);
 
-
 form.addEventListener('input', saveFormState);
 
 window.addEventListener('load', () => {
@@ -21,20 +20,22 @@ window.addEventListener('load', () => {
     if (feedbackFormState) {
     emailInput.value = feedbackFormState.email;
     messageInput.value = feedbackFormState.message;
-    }
+}
 });
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const feedbackFormState = {
-        email: emailInput.value,
-        message: messageInput.value
-    };
-    localStorage.setItem(feedbackFormStateKey, JSON.stringify(feedbackFormState));
+
+    if (emailInput.value.trim() === '' || messageInput.value.trim() === '') {
+    alert('Please fill in all fields');
+    return;
+}
+const feedbackFormState = {
+    email: emailInput.value,
+    message: messageInput.value
+};
+localStorage.setItem(feedbackFormStateKey, JSON.stringify(feedbackFormState));
     emailInput.value = '';
     messageInput.value = '';
     console.log(feedbackFormState);
 });
-
-
-
